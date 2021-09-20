@@ -13,20 +13,6 @@ function Note({ notePad, index, removeNote }) {
                     </div>
                 </form>
             </div>
-            <div className="container">
-                <h2>Vertical (basic) form</h2>
-                <form >
-                    <div className="form-group">
-                        <label htmlFor="email">Email:</label>
-                        <input type="email" className="form-control" id="email" placeholder="Enter email" name="email"/>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="pwd">Password:</label>
-                        <input type="password" className="form-control" id="pwd" placeholder="Enter password" name="pwd"/>
-                    </div>
-
-                </form>
-            </div>
         </div>
 
     );
