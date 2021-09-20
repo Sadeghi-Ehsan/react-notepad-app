@@ -3,13 +3,32 @@ import "./App.css";
 
 function Note({ notePad, index, removeNote }) {
     return (
-        <div className="" >
-            <form >
-                <input type="text" defaultValue={notePad.title} />
-                <textarea  rows="4" cols="30" defaultValue={notePad.text}/>
-                <button onClick={() => removeNote(index)}>delete</button>
-            </form>
+        <div>
+            <div className="container">
+                <form>
+                    <div className="form-group">
+                        <input className="form-control" type="text" defaultValue={notePad.title}/>
+                        <textarea className="form-control" rows="4" cols="30" defaultValue={notePad.text}/>
+                        <button className="form-control" onClick={() => removeNote(index)}>delete</button>
+                    </div>
+                </form>
+            </div>
+            <div className="container">
+                <h2>Vertical (basic) form</h2>
+                <form >
+                    <div className="form-group">
+                        <label htmlFor="email">Email:</label>
+                        <input type="email" className="form-control" id="email" placeholder="Enter email" name="email"/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="pwd">Password:</label>
+                        <input type="password" className="form-control" id="pwd" placeholder="Enter password" name="pwd"/>
+                    </div>
+
+                </form>
+            </div>
         </div>
+
     );
 }
 
