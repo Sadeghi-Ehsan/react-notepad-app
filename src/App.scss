@@ -1,0 +1,16 @@
+@import "custom";
+
+.header {
+  text-align: center;
+}
+
+span {
+  &.dangerText {
+    color: #dc3545;
+  }
+
+  &.text-color {
+    color: #17a2b8;
+    font-weight: bold;
+  }
+}
