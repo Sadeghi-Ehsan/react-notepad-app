@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import "./App.scss";
-import {signIn} from './actions/AuthActionCreators';
+import {fetchGists, signIn} from './actions/AuthActionCreators';
 
 function Note({notePad, index, removeNote}) {
   return (
@@ -47,6 +47,22 @@ function NoteForm({addNote}) {
     </div>
   );
 }
+function NewEmptyNote({addNote}) {
+  return (
+    <div className="m-4">
+      <h2 className="my-notes">My Notes</h2>
+      <div className="col-sm-8">
+        <div className="d-flex  justify-content-between pt-2">
+          <input className="form-control col-sm-10" type="text" placeholder="Enter note title..." />
+        </div>
+        <div className="form-group pt-2">
+          <textarea className="form-control" rows="4" cols="30" placeholder="Enter note..."/>
+        </div>
+        <button type="button" className="btn btn-add mt-2" onClick={() => addNote('index')}>Add</button>
+      </div>
+    </div>
+  );
+}
 
 function App() {
   const [notes, setNotes] = useState([
@@ -62,8 +78,14 @@ function App() {
   ]);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(signIn({}))
-  }, [notes])
+    dispatch(fetchGists())
+  }, []);
+
+  const { gists,gistsLoading } = useSelector(state => ({
+    gists: state.authReducer.gists,
+    gistsLoading: state.authReducer.gistLoading
+  }));
+
 
   const addNote = text => {
     const newNotes = [...notes, {text}];
@@ -80,18 +102,7 @@ function App() {
     <div className="app container">
       <div className="notePad-list p-2">
         <NoteForm addNote={addNote}/>
-        <div className="m-4">
-          <h2 className="my-notes">My Notes</h2>
-          <div className="col-sm-8">
-            <div className="d-flex  justify-content-between pt-2">
-              <input className="form-control col-sm-10" type="text" placeholder="Enter note title..." />
-            </div>
-            <div className="form-group pt-2">
-              <textarea className="form-control" rows="4" cols="30" placeholder="Enter note..."/>
-            </div>
-            <button type="button" className="btn btn-add mt-2" onClick={() => addNote('index')}>Add</button>
-          </div>
-        </div>
+        <NewEmptyNote addNote={addNote} />
         {notes.map((notePad, index) => (
           <Note
             key={index}
