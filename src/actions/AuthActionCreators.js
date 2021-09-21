@@ -1,0 +1,15 @@
+import {dispatchAsync} from "../ReduxDispatcher";
+import authConstants from "../constants/authConstants";
+import AuthAPI from "../api/AuthAPI";
+
+const signIn = () => dispatch => {
+    dispatchAsync(AuthAPI.signIn(), dispatch, {
+    request: authConstants.SIGN_IN,
+    success: authConstants.SIGN_IN_SUCCESS,
+    failure: authConstants.SIGN_IN_ERROR,
+    cancel: authConstants.SIGN_IN_CANCEL
+  });
+};
+
+
+export {signIn};

@@ -1,5 +1,7 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
+import { useDispatch } from 'react-redux';
 import "./App.scss";
+import {signIn} from './actions/AuthActionCreators';
 
 function Note({notePad, index, removeNote}) {
   return (
@@ -19,7 +21,7 @@ function Note({notePad, index, removeNote}) {
 }
 
 function NoteForm({addNote}) {
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = useState("");
 
   const addNotePad = () => {
     if (!value) return;
@@ -47,7 +49,7 @@ function NoteForm({addNote}) {
 }
 
 function App() {
-  const [notes, setNotes] = React.useState([
+  const [notes, setNotes] = useState([
     {
       title: "Title Of first note",
       text: "first note description",
@@ -58,6 +60,10 @@ function App() {
     },
 
   ]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(signIn({}))
+  }, [notes])
 
   const addNote = text => {
     const newNotes = [...notes, {text}];
