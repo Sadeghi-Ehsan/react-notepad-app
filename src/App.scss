@@ -1,16 +1,64 @@
 @import "custom";
 
-.header {
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+
+  background: $body-color;
+  color: $text-color;
+  //max-width: 1024px;
+  font-family: Arial, serif;
+}
+
+buttons {
+  font-size: 14px;
+}
+
+.my-notes {
+  font-size: 18px;
+
+  label {
+    font-size: 12px;
+  }
+}
+.notePad-list{
+  input,textarea{
+    border-color: $border-color;
+    color: $text-color;
+  }
+  ::placeholder {
+    color: $placeholder-color;
+    opacity: 1; /* Firefox */
+  }
+
+}
+.main-title {
+  font-size: 24px;
   text-align: center;
 }
 
-span {
-  &.dangerText {
-    color: #dc3545;
-  }
+.btn-delete {
+  color: #fff;
+  background-color: $red;
+  margin: 0 0.3rem;
+}
 
-  &.text-color {
-    color: #17a2b8;
-    font-weight: bold;
-  }
+.btn-save {
+  color: #fff;
+  background-color: $blue;
+  margin: 0 0.3rem;
+}
+
+.btn-add {
+  color: #fff;
+  background-color: $green;
+  margin: 0 0.3rem;
+}
+
+.btn-outline {
+  color: $text-color;
+  background-color: transparent;
+  margin: 0 0.3rem;
+  border: 2px solid $border-color;
 }
