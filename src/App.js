@@ -2,6 +2,7 @@ import React,{useState,useEffect} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import "./App.scss";
 import {fetchGists, signIn} from './actions/AuthActionCreators';
+import {GistsChart} from "./components/GistsChart";
 
 function Note({notePad, index, removeNote}) {
   return (
@@ -85,7 +86,7 @@ function App() {
     gists: state.authReducer.gists,
     gistsLoading: state.authReducer.gistLoading
   }));
-
+console.log('gists',gists)
 
   const addNote = text => {
     const newNotes = [...notes, {text}];
@@ -111,6 +112,7 @@ function App() {
             removeNote={removeNote}
           />
         ))}
+        <GistsChart {...gists} />
       </div>
     </div>
   );
