@@ -1,8 +1,9 @@
-import React,{useState,useEffect} from "react";
+import React, {useState, useEffect, Fragment} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import "./App.scss";
 import {fetchGists, signIn} from './actions/AuthActionCreators';
 import {GistsChart} from "./components/GistsChart";
+import Utils from "./sharedServices/utils";
 
 function Note({notePad, index, removeNote}) {
   return (
@@ -21,7 +22,7 @@ function Note({notePad, index, removeNote}) {
   );
 }
 
-function NoteForm({addNote}) {
+function NoteForm({addNote,chartDisplay}) {
   const [value, setValue] = useState("");
 
   const addNotePad = () => {
@@ -41,13 +42,14 @@ function NoteForm({addNote}) {
           onChange={e => setValue(e.target.value)}/>
       </div>
       <div className="">
-        <button type="button" className="btn btn-outline" onClick={() => addNotePad()}>View State</button>
+        <button type="button" className="btn btn-outline" onClick={() => chartDisplay()}>View State</button>
         <button type="button" className="btn btn-save" onClick={() => addNotePad()}>Save</button>
         <button type="button" className="btn btn-delete" onClick={() => console.log('delete')}>Delete</button>
       </div>
     </div>
   );
 }
+
 function NewEmptyNote({addNote}) {
   return (
     <div className="m-4">
@@ -66,6 +68,8 @@ function NewEmptyNote({addNote}) {
 }
 
 function App() {
+  const [page, setPage] = useState(1);
+  const [displayChart, setDisplayChart] = useState(false);
   const [notes, setNotes] = useState([
     {
       title: "Title Of first note",
@@ -79,14 +83,16 @@ function App() {
   ]);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchGists())
-  }, []);
+    let model = {};
+    model.page = page;
+    model.per_page = 100;
+    dispatch(fetchGists(Utils.updateQueryString(model)))
+  }, [page]);
 
   const { gists,gistsLoading } = useSelector(state => ({
-    gists: state.authReducer.gists,
+    gists:state.authReducer.gists ,
     gistsLoading: state.authReducer.gistLoading
   }));
-console.log('gists',gists)
 
   const addNote = text => {
     const newNotes = [...notes, {text}];
@@ -99,10 +105,18 @@ console.log('gists',gists)
     setNotes(newNotes);
   };
 
+  const loadMore = () =>{
+    setPage(page + 1)
+  }
+
+  const chartDisplay=()=>{
+    setDisplayChart(!displayChart)
+  }
+
   return (
     <div className="app container">
       <div className="notePad-list p-2">
-        <NoteForm addNote={addNote}/>
+        <NoteForm addNote={addNote} chartDisplay={chartDisplay}/>
         <NewEmptyNote addNote={addNote} />
         {notes.map((notePad, index) => (
           <Note
@@ -112,10 +126,14 @@ console.log('gists',gists)
             removeNote={removeNote}
           />
         ))}
-        <GistsChart {...gists} />
+        {displayChart && <Fragment>
+            <div className="d-flex justify-content-end">
+              <button type="button" className="btn btn-outline" onClick={() => chartDisplay()}>Close State</button>
+            </div>
+           <GistsChart gists={gists} loading={gistsLoading} loadMore={loadMore}/>
+          </Fragment>}
       </div>
     </div>
   );
 }
-
 export default App;

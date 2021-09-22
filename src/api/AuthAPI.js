@@ -4,11 +4,11 @@ import authConstants from '../constants/authConstants';
 
 
 let AuthAPI = {
-  signIn() {
-    return axios.get(`https://api.github.com/gists`);
+  signIn(model) {
+    return axios.get(`https://api.github.com/gists?${model}`);
   },
-  fetchGists() {
-    return axios.get(`https://api.github.com/gists`);
+  fetchGists(model) {
+    return axios.get(`https://api.github.com/gists?${model}`);
   }
 };
 export default AuthAPI;

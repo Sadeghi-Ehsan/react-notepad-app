@@ -15,6 +15,10 @@ buttons {
   font-size: 14px;
 }
 
+button:hover {
+  color: #333333 !important;;
+}
+
 .my-notes {
   font-size: 18px;
 
@@ -22,17 +26,22 @@ buttons {
     font-size: 12px;
   }
 }
-.notePad-list{
-  input,textarea{
+
+.notePad-list {
+  background-color: #ffffff;
+
+  input, textarea {
     border-color: $border-color;
     color: $text-color;
   }
+
   ::placeholder {
     color: $placeholder-color;
     opacity: 1; /* Firefox */
   }
 
 }
+
 .main-title {
   font-size: 24px;
   text-align: center;

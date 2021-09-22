@@ -10,8 +10,8 @@ const signIn = () => dispatch => {
     cancel: authConstants.SIGN_IN_CANCEL
   });
 };
-const fetchGists = () => dispatch => {
-  dispatchAsync(AuthAPI.fetchGists(), dispatch, {
+const fetchGists = (model) => dispatch => {
+  dispatchAsync(AuthAPI.fetchGists(model), dispatch, {
     request: authConstants.FETCH_GISTS,
     success: authConstants.FETCH_GISTS_SUCCESS,
     failure: authConstants.FETCH_GISTS_ERROR,

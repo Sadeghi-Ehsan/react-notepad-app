@@ -4,6 +4,7 @@ const initialState = {
   loading: false,
   authError: "",
   auth: '',
+  gists: []
 };
 const initialAction = {type: "initial state"};
 
