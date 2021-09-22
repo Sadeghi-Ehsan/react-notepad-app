@@ -114,7 +114,8 @@ function App() {
   }
 
   return (
-    <div className="app container">
+    <div className="container">
+      <h1 className="main-title p-2 m-2">NotePad Application</h1>
       <div className="notePad-list p-2">
         <NoteForm addNote={addNote} chartDisplay={chartDisplay}/>
         <NewEmptyNote addNote={addNote} />

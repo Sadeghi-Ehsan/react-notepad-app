@@ -51,6 +51,7 @@ export function GistsChart(dataCharts) {
                 type="monotone"
                 dataKey="comments"
                 stroke="#8884d8"
+                dot={false}
               />
             </LineChart>
           </ResponsiveContainer>
@@ -78,6 +79,7 @@ export function GistsChart(dataCharts) {
                 type="monotone"
                 dataKey="files"
                 stroke="#8884d8"
+                dot={false}
               />
             </LineChart>
           </ResponsiveContainer>
