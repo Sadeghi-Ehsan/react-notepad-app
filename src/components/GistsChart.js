@@ -1,5 +1,5 @@
 import React from "react";
-import {CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis,} from "recharts";
+import {CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis,} from "recharts";
 
 
 export function GistsChart(dataCharts) {
@@ -31,52 +31,56 @@ export function GistsChart(dataCharts) {
       {loading ? <h2 className="text-center my-notes p-5 min-vh-100"> Loading ...</h2> :
         <div className="col-sm-8">
           <h2 className="my-notes text-center p-2 m-2">Gist Created</h2>
-          <LineChart
-            width={750}
-            height={280}
-            data={data}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3"/>
-            <XAxis dataKey="name" tick={{fontSize: 12}}/>
-            <YAxis/>
-            <Tooltip/>
-            <Line
-              type="monotone"
-              dataKey="comments"
-              stroke="#8884d8"
-            />
-          </LineChart>
+          <ResponsiveContainer width="99%" aspect={3}>
+            <LineChart
+              width={750}
+              height={280}
+              data={data}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3"/>
+              <XAxis dataKey="name" tick={{fontSize: 12}}/>
+              <YAxis/>
+              <Tooltip/>
+              <Line
+                type="monotone"
+                dataKey="comments"
+                stroke="#8884d8"
+              />
+            </LineChart>
+          </ResponsiveContainer>
           <div className="d-flex justify-content-center m-3">
             <button type="button" className="btn btn-outline" onClick={() => dataCharts.loadMore()}>Load More</button>
           </div>
           <h2 className="my-notes text-center p-2 m-2">Files per Gist</h2>
-          <LineChart
-            width={750}
-            height={280}
-            data={data}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3"/>
-            <XAxis dataKey="name" tick={{fontSize: 12}}/>
-            <YAxis/>
-            <Tooltip/>
-            <Line
-              type="monotone"
-              dataKey="files"
-              stroke="#8884d8"
-            />
-          </LineChart>
+          <ResponsiveContainer width="99%" aspect={3}>
+            <LineChart
+              width={750}
+              height={280}
+              data={data}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3"/>
+              <XAxis dataKey="name" tick={{fontSize: 12}}/>
+              <YAxis/>
+              <Tooltip/>
+              <Line
+                type="monotone"
+                dataKey="files"
+                stroke="#8884d8"
+              />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       }
     </div>
