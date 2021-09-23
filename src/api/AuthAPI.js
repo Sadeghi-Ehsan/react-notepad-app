@@ -7,7 +7,6 @@ let AuthAPI = {
     return axios.get(`https://api.github.com/gists?${model}`);
   },
   createGists(model) {
-    debugger;
     return axios.post(`https://api.github.com/gists`,model, {headers: authHeader()});
   }
 };

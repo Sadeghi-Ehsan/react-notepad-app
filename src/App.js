@@ -5,6 +5,7 @@ import {createGists, fetchGists} from './actions/AuthActionCreators';
 import {GistsChart} from "./components/GistsChart";
 import Utils from "./sharedServices/utils";
 
+let savedNote=[];
 function Note({note, index, removeNote}) {
   return (
     <div className="note-list m-4">
@@ -161,10 +162,17 @@ function App() {
         "content": "String file contents"
       }
     }
+    savedNote = newFormNote;
     dispatch(createGists(model))
-    const newNotes = [...notes, newFormNote];
-    setNotes(newNotes);
   }
+
+  useEffect(() => {
+    if(newCreatedGist.id){
+      savedNote.id=newCreatedGist.id
+      const newNotes = [...notes, savedNote];
+      setNotes(newNotes);
+    }
+  }, [newCreatedGist]);
 
 
   const saveNotePad = title => {

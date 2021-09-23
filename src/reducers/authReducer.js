@@ -3,7 +3,8 @@ import authConstant from '../constants/authConstants';
 const initialState = {
   loading: false,
   auth: '',
-  gists: []
+  gists: [],
+  newCreatedGist:[]
 };
 const initialAction = {type: "initial state"};
 
