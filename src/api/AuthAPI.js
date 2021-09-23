@@ -4,7 +4,7 @@ import {authHeader} from '../sharedServices/auth-header';
 
 let AuthAPI = {
   fetchGists(model) {
-    return axios.get(`https://api.github.com/gists?${model}`);
+    return axios.get(`https://api.github.com/gists/public?${model}`,{headers: authHeader()});
   },
   createGists(model) {
     return axios.post(`https://api.github.com/gists`,model, {headers: authHeader()});
