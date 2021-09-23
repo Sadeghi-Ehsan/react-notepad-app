@@ -71,17 +71,47 @@ function NotePadForm({saveNotePad,deleteNotePad,chartDisplay,notepads}) {
 }
 
 function NewEmptyNote({addNote}) {
+  const [formData, setFormData] = useState({
+    title: "",
+    text: "",
+  });
+
+  const updateFormData = event =>
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value
+    });
+  const addNewNote = ()=>{
+    if(formData.title.length<255 && formData.title.length>0 &&
+      formData.text.length<1000 &&formData.text.length<1000){
+      addNote(formData)
+      setFormData({title: "",text: "",});
+    }else{
+      console.log('%c the length limit exceeded! or required fields' +
+        ' are empty','background: #222;color:#bada55')
+    }
+  }
+
+  const { title, text } = formData;
   return (
     <div className="m-4">
       <h2 className="my-notes">My Notes</h2>
       <div className="col-sm-8">
-        <div className="d-flex  justify-content-between pt-2">
-          <input className="form-control col-sm-10" type="text" placeholder="Enter note title..." />
-        </div>
-        <div className="form-group pt-2">
-          <textarea className="form-control" rows="4" cols="30" placeholder="Enter note..."/>
-        </div>
-        <button type="button" className="btn btn-add mt-2" onClick={() => addNote('index')}>Add</button>
+          <div className="d-flex  justify-content-between p-2">
+            <input className="form-control col-sm-10"
+               type="text"
+               value={title}
+               name={'title'}
+               onChange={e => updateFormData(e)}/>
+          </div>
+          <div className="form-group p-2">
+            <textarea className="form-control"
+                rows="4" cols="30"
+                value={text}
+                name={'text'}
+                onChange={e => updateFormData(e)}/>
+          </div>
+          <button type="submit" className="btn btn-add"  onClick={() => addNewNote()} >Add</button>
       </div>
     </div>
   );
@@ -119,15 +149,16 @@ function App() {
     gistsLoading: state.authReducer.gistLoading
   }));
 
-  const addNote = text => {
-    const newNotes = [...notes, {text}];
+  const addNote = newFormNote => {
+    const newNotes = [...notes, newFormNote];
     setNotes(newNotes);
   };
 
   const saveNotePad = title => {
     notepads.find(item => {
       if(item.title === title){
-        console.log('%c Entered Title does exist! select Another One','background: #222;color:#bada55')
+        console.log('%c Entered Title does exist!' +
+          ' select Another One','background: #222;color:#bada55')
         return;
       }
     })
@@ -141,7 +172,8 @@ function App() {
       newList = notepads.filter(item => item.title !== title)
       setNotepads(newList);
     }else{
-      console.log('%c At least One notePad has to be remain!','background: #222;color:#bada55')
+      console.log('%c At least One notePad has' +
+        ' to be remain!','background: #222;color:#bada55')
     }
   };
 
@@ -164,7 +196,8 @@ function App() {
     <div className="container">
       <h1 className="main-title p-2 m-2">NotePad Application</h1>
       <div className="note-list p-2">
-        <NotePadForm notepads={notepads} saveNotePad={saveNotePad} deleteNotePad={deleteNotePad} chartDisplay={chartDisplay}/>
+        <NotePadForm notepads={notepads} saveNotePad={saveNotePad}
+           deleteNotePad={deleteNotePad} chartDisplay={chartDisplay}/>
         <NewEmptyNote addNote={addNote} />
         {notes.map((note, index) => (
           <Note
