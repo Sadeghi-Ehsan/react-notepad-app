@@ -5,16 +5,16 @@ import {fetchGists, signIn} from './actions/AuthActionCreators';
 import {GistsChart} from "./components/GistsChart";
 import Utils from "./sharedServices/utils";
 
-function Note({notePad, index, removeNote}) {
+function Note({note, index, removeNote}) {
   return (
-    <div className="notePad-list m-4">
+    <div className="note-list m-4">
       <div className="col-sm-8">
         <div className="d-flex  justify-content-between p-2">
-          <input className="form-control col-sm-10" type="text" defaultValue={notePad.title}/>
+          <input className="form-control col-sm-10" type="text" defaultValue={note.title}/>
           <button type="button" className="  btn btn-delete" onClick={() => removeNote(index)}>delete</button>
         </div>
         <div className="form-group p-2">
-          <textarea className="form-control" rows="4" cols="30" defaultValue={notePad.text}/>
+          <textarea className="form-control" rows="4" cols="30" defaultValue={note.text}/>
         </div>
       </div>
     </div>
@@ -22,12 +22,23 @@ function Note({notePad, index, removeNote}) {
   );
 }
 
-function NoteForm({addNote,chartDisplay}) {
+function NotePadForm({saveNotePad,deleteNotePad,chartDisplay,notepads}) {
   const [value, setValue] = useState("");
 
   const addNotePad = () => {
-    if (!value) return;
-    addNote(value);
+    if (!value){
+      console.log('%c title has not entered!','background: #222;color:#bada55')
+      return;
+    }
+    saveNotePad(value);
+    setValue("");
+  };
+  const delNotePad = () => {
+    if (!value){
+      console.log('%c title has not selected!','background: #222;color:#bada55')
+      return;
+    }
+    deleteNotePad(value)
     setValue("");
   };
 
@@ -39,12 +50,21 @@ function NoteForm({addNote,chartDisplay}) {
           className="form-control"
           value={value}
           placeholder={'My Note Pad Title'}
+          list="notepadList"
           onChange={e => setValue(e.target.value)}/>
+        <datalist id="notepadList">
+          {notepads.map((item,index)=>(
+            <option key={index} value={item.title}/>
+          ))}
+
+        </datalist>
       </div>
+
+
       <div className="">
         <button type="button" className="btn btn-outline" onClick={() => chartDisplay()}>View State</button>
         <button type="button" className="btn btn-save" onClick={() => addNotePad()}>Save</button>
-        <button type="button" className="btn btn-delete" onClick={() => console.log('delete')}>Delete</button>
+        <button type="button" className="btn btn-delete" onClick={() => delNotePad()}>Delete</button>
       </div>
     </div>
   );
@@ -81,6 +101,11 @@ function App() {
     },
 
   ]);
+  const [notepads, setNotepads] = useState([
+    {
+      title: "My Notepad Application",
+    },
+  ]);
   const dispatch = useDispatch();
   useEffect(() => {
     let model = {};
@@ -99,6 +124,28 @@ function App() {
     setNotes(newNotes);
   };
 
+  const saveNotePad = title => {
+    notepads.find(item => {
+      if(item.title === title){
+        console.log('%c Entered Title does exist! select Another One','background: #222;color:#bada55')
+        return;
+      }
+    })
+    const newNotepad = [...notepads, {title}];
+    setNotepads(newNotepad);
+  };
+
+  const deleteNotePad = title => {
+    let newList=[];
+    if(notepads.length>1){
+      newList = notepads.filter(item => item.title !== title)
+      setNotepads(newList);
+    }else{
+      console.log('%c At least One notePad has to be remain!','background: #222;color:#bada55')
+    }
+  };
+
+
   const removeNote = index => {
     const newNotes = [...notes];
     newNotes.splice(index, 1);
@@ -116,14 +163,14 @@ function App() {
   return (
     <div className="container">
       <h1 className="main-title p-2 m-2">NotePad Application</h1>
-      <div className="notePad-list p-2">
-        <NoteForm addNote={addNote} chartDisplay={chartDisplay}/>
+      <div className="note-list p-2">
+        <NotePadForm notepads={notepads} saveNotePad={saveNotePad} deleteNotePad={deleteNotePad} chartDisplay={chartDisplay}/>
         <NewEmptyNote addNote={addNote} />
-        {notes.map((notePad, index) => (
+        {notes.map((note, index) => (
           <Note
             key={index}
             index={index}
-            notePad={notePad}
+            note={note}
             removeNote={removeNote}
           />
         ))}
