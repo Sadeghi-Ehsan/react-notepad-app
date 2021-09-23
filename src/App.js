@@ -59,8 +59,6 @@ function NotePadForm({saveNotePad,deleteNotePad,chartDisplay,notepads}) {
 
         </datalist>
       </div>
-
-
       <div className="">
         <button type="button" className="btn btn-outline" onClick={() => chartDisplay()}>View State</button>
         <button type="button" className="btn btn-save" onClick={() => addNotePad()}>Save</button>
@@ -99,6 +97,7 @@ function NewEmptyNote({addNote}) {
       <div className="col-sm-8">
           <div className="d-flex  justify-content-between p-2">
             <input className="form-control col-sm-10"
+               placeholder="Enter note title..."
                type="text"
                value={title}
                name={'title'}
@@ -106,10 +105,11 @@ function NewEmptyNote({addNote}) {
           </div>
           <div className="form-group p-2">
             <textarea className="form-control"
-                rows="4" cols="30"
-                value={text}
-                name={'text'}
-                onChange={e => updateFormData(e)}/>
+              placeholder="Enter note ..."
+              rows="4" cols="30"
+              value={text}
+              name={'text'}
+              onChange={e => updateFormData(e)}/>
           </div>
           <button type="submit" className="btn btn-add"  onClick={() => addNewNote()} >Add</button>
       </div>
