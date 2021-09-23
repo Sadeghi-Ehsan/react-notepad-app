@@ -1,7 +1,7 @@
-import React, {useState, useEffect, Fragment} from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import React, {Fragment, useEffect, useState} from "react";
+import {useDispatch, useSelector} from 'react-redux';
 import "./App.scss";
-import {fetchGists, signIn} from './actions/AuthActionCreators';
+import {createGists, fetchGists} from './actions/AuthActionCreators';
 import {GistsChart} from "./components/GistsChart";
 import Utils from "./sharedServices/utils";
 
@@ -137,6 +137,12 @@ function App() {
     },
   ]);
   const dispatch = useDispatch();
+  const { gists,gistsLoading,newCreatedGist } = useSelector(state => ({
+    gists:state.authReducer.gists ,
+    gistsLoading: state.authReducer.gistLoading,
+    newCreatedGist:state.authReducer.newCreatedGist
+  }));
+
   useEffect(() => {
     let model = {};
     model.page = page;
@@ -144,15 +150,22 @@ function App() {
     dispatch(fetchGists(Utils.updateQueryString(model)))
   }, [page]);
 
-  const { gists,gistsLoading } = useSelector(state => ({
-    gists:state.authReducer.gists ,
-    gistsLoading: state.authReducer.gistLoading
-  }));
 
-  const addNote = newFormNote => {
+
+  const addNote = (newFormNote) =>{
+    let model = {};
+    model.description= newFormNote.text;
+    model.public= true;
+    model.files= {
+      "file1.txt": {
+        "content": "String file contents"
+      }
+    }
+    dispatch(createGists(model))
     const newNotes = [...notes, newFormNote];
     setNotes(newNotes);
-  };
+  }
+
 
   const saveNotePad = title => {
     notepads.find(item => {

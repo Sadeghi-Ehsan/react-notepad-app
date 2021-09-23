@@ -2,14 +2,6 @@ import {dispatchAsync} from "../ReduxDispatcher";
 import authConstants from "../constants/authConstants";
 import AuthAPI from "../api/AuthAPI";
 
-const signIn = () => dispatch => {
-  dispatchAsync(AuthAPI.signIn(), dispatch, {
-    request: authConstants.SIGN_IN,
-    success: authConstants.SIGN_IN_SUCCESS,
-    failure: authConstants.SIGN_IN_ERROR,
-    cancel: authConstants.SIGN_IN_CANCEL
-  });
-};
 const fetchGists = (model) => dispatch => {
   dispatchAsync(AuthAPI.fetchGists(model), dispatch, {
     request: authConstants.FETCH_GISTS,
@@ -19,5 +11,14 @@ const fetchGists = (model) => dispatch => {
   });
 }
 
+const createGists = (model) => dispatch => {
+  dispatchAsync(AuthAPI.createGists(model), dispatch, {
+    request: authConstants.POST_GISTS,
+    success: authConstants.POST_GISTS_SUCCESS,
+    failure: authConstants.POST_GISTS_ERROR,
+    cancel: authConstants.POST_GISTS_CANCEL
+  });
+}
 
-export {signIn, fetchGists};
+
+export { fetchGists, createGists};

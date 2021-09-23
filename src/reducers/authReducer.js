@@ -2,7 +2,6 @@ import authConstant from '../constants/authConstants';
 
 const initialState = {
   loading: false,
-  authError: "",
   auth: '',
   gists: []
 };
@@ -10,29 +9,6 @@ const initialAction = {type: "initial state"};
 
 const authReducer = (state = initialState, action = initialAction) => {
   switch (action.type) {
-    case authConstant.SIGN_IN:
-      return {
-        ...state,
-        loading: true
-      };
-    case authConstant.SIGN_IN_SUCCESS:
-      localStorage.setItem('auth', JSON.stringify(action.payload.response.data));
-      return {
-        ...state,
-        loading: false,
-        auth: action.payload.response.data
-      };
-    case authConstant.SIGN_IN_ERROR:
-      return {
-        ...state,
-        loading: false,
-        authError: action.payload.error.response.data
-      };
-    case authConstant.SIGN_IN_CANCEL:
-      return {
-        ...state,
-        loading: false
-      };
     case authConstant.FETCH_GISTS:
       return {
         ...state,
@@ -48,12 +24,36 @@ const authReducer = (state = initialState, action = initialAction) => {
       return {
         ...state,
         gistLoading: false,
-        gistsError: action.payload.error.response.data
+        gistsError: action.payload.error
       };
     case authConstant.FETCH_GISTS_CANCEL:
       return {
         ...state,
         gistLoading: false
+      };
+
+
+    case authConstant.POST_GISTS:
+      return {
+        ...state,
+        gistCreate: true
+      };
+    case authConstant.POST_GISTS_SUCCESS:
+      return {
+        ...state,
+        gistCreate: false,
+        newCreatedGist: action.payload.response.data
+      };
+    case authConstant.POST_GISTS_ERROR:
+      return {
+        ...state,
+        gistCreate: false,
+        gistsError: action.payload.error
+      };
+    case authConstant.POST_GISTS_CANCEL:
+      return {
+        ...state,
+        gistCreate: false
       };
 
     default:
